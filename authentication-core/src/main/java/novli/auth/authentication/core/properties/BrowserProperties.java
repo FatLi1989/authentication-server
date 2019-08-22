@@ -15,6 +15,10 @@ public class BrowserProperties {
     @Getter
     private int rememberMeSeconds;
 
+    @Setter
+    @Getter
+    private String signUpUrl;
+
     public BrowserProperties() {
     }
 }

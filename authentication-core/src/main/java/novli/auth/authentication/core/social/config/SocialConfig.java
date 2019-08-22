@@ -1,24 +1,35 @@
 package novli.auth.authentication.core.social.config;
 
+import novli.auth.authentication.core.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.SpringProperties;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.social.UserIdSource;
+import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
-@EnableSocial //spring启动社交属性
+//spring启动社交属性
+@EnableSocial
 @Configuration
 public class SocialConfig extends SocialConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private SecurityProperties securityProperties;
 
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
@@ -29,7 +40,16 @@ public class SocialConfig extends SocialConfigurerAdapter {
     }
 
     @Bean
+    @Qualifier(value = "novLiSpringSocialConfigurer")
     public SpringSocialConfigurer novLiSpringSocialConfigurer() {
-        return new SpringSocialConfigurer();
+        String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
+        NovLiSpringSocialConfig config = new NovLiSpringSocialConfig(filterProcessesUrl);
+        config.signupUrl("");
+        return config;
+    }
+
+    @Override
+    public UserIdSource getUserIdSource() {
+        return new AuthenticationNameUserIdSource();
     }
 }

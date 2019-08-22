@@ -7,5 +7,9 @@ public class SocialProperties {
 
     @Setter
     @Getter
+    private String filterProcessesUrl;
+
+    @Setter
+    @Getter
     private QQProperties qq;
 }

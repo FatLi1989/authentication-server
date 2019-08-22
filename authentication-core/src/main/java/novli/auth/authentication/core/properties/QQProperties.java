@@ -2,9 +2,18 @@ package novli.auth.authentication.core.properties;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.social.SocialProperties;
+import lombok.ToString;
 
-public class QQProperties extends SocialProperties {
+@ToString
+public class QQProperties {
+
+    @Setter
+    @Getter
+    private String appId;
+
+    @Setter
+    @Getter
+    private String appSecret;
 
     @Setter
     @Getter
