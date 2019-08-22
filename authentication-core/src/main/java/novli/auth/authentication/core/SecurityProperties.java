@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import novli.auth.authentication.core.properties.BrowserProperties;
+import novli.auth.authentication.core.properties.SocialProperties;
 import novli.auth.authentication.core.properties.ValidateCodeProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -18,6 +19,10 @@ public class SecurityProperties {
     @Setter
     @Getter
     private ValidateCodeProperties code = new ValidateCodeProperties();
+
+    @Setter
+    @Getter
+    private SocialProperties social = new SocialProperties();
 
     public SecurityProperties() {
     }

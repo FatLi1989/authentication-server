@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -40,13 +41,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SmsCodeFilter smsCodeFilter;
 
-
     @Autowired
     private DataSource dataSource;
 
     @Autowired
     @Qualifier(value = "myUserDetail")
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private SpringSocialConfigurer novLiSpringSocialConfigurer;
 
 
     @Autowired
@@ -89,6 +92,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .csrf().disable()
-                .apply(smsCodeAuthenticationSecurityConfig);
+                .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                .apply(novLiSpringSocialConfigurer);
     }
 }
