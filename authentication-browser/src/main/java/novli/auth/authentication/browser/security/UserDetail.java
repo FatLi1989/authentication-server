@@ -51,7 +51,7 @@ public class UserDetail implements UserDetailsService, SocialUserDetailsService 
     private SocialUserDetails buildUser(String userName) {
         log.info("password: {}", passwordEncoder.encode("123456"));
         String password = passwordEncoder.encode("123456");
-        return new SocialUser(userName, password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        return new SocialUser("123", password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }
 
 

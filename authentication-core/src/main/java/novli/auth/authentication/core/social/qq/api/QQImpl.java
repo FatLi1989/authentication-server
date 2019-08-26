@@ -1,4 +1,4 @@
-package novli.auth.authentication.core.social.qq;
+package novli.auth.authentication.core.social.qq.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;

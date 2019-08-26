@@ -40,11 +40,11 @@ public class SocialConfig extends SocialConfigurerAdapter {
     }
 
     @Bean
-    @Qualifier(value = "novLiSpringSocialConfigurer")
+    @Qualifier(value = "novLiSpringSocialConfig")
     public SpringSocialConfigurer novLiSpringSocialConfigurer() {
         String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
         NovLiSpringSocialConfig config = new NovLiSpringSocialConfig(filterProcessesUrl);
-        config.signupUrl("");
+        config.signupUrl(securityProperties.getBrowser().getSignUpUrl());
         return config;
     }
 

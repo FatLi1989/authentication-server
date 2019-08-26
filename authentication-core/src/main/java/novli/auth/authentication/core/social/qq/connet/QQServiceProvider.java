@@ -1,12 +1,11 @@
-package novli.auth.authentication.core.social.connet;
+package novli.auth.authentication.core.social.qq.connet;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import novli.auth.authentication.core.social.qq.QQ;
-import novli.auth.authentication.core.social.qq.QQImpl;
+import novli.auth.authentication.core.social.qq.api.QQ;
+import novli.auth.authentication.core.social.qq.api.QQImpl;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
-import org.springframework.social.oauth2.OAuth2Template;
 
 @Slf4j
 public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQ> {
@@ -25,7 +24,8 @@ public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQ> {
 
 
     public QQServiceProvider(String appId, String appSecret) {
-        super(new OAuth2Template(appId, appSecret, AUTHORIZE_URL, ACCESS_TOKEN_URL));
+        super(new QQAuth2Template(appId, appSecret, AUTHORIZE_URL, ACCESS_TOKEN_URL));
+        this.appId = appId;
     }
 
     @Override

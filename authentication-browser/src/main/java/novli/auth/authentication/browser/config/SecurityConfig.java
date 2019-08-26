@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private SpringSocialConfigurer novLiSpringSocialConfigurer;
+    private SpringSocialConfigurer novLiSpringSocialConfig;
 
 
     @Autowired
@@ -72,6 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                .apply(novLiSpringSocialConfig)//进入SocialConfig配置项
+                .and()
                 .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
@@ -86,14 +90,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require", "/authentication/mobile", securityProperties.getBrowser().getLoginPage(), "/code/*", "/assets/**")
+                .antMatchers("/authentication/require", "/authentication/mobile", securityProperties.getBrowser().getLoginPage(), securityProperties.getBrowser().getSignUpUrl(),"/code/*", "/assets/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .csrf().disable()
-                .apply(smsCodeAuthenticationSecurityConfig)
-                .and()
-                .apply(novLiSpringSocialConfigurer);
+                .csrf().disable();
+
     }
 }

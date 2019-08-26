@@ -1,6 +1,6 @@
-package novli.auth.authentication.core.social.connet;
+package novli.auth.authentication.core.social.qq.connet;
 
-import novli.auth.authentication.core.social.qq.QQ;
+import novli.auth.authentication.core.social.qq.api.QQ;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;

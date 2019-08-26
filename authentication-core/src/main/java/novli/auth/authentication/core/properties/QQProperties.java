@@ -17,5 +17,5 @@ public class QQProperties {
 
     @Setter
     @Getter
-    private String qqProviderId = "qq";
+    private String qqProviderId = "qq/callback";
 }
