@@ -1,6 +1,7 @@
 package novli.auth.authentication.core.social.config;
 
 import novli.auth.authentication.core.SecurityProperties;
+import novli.auth.authentication.core.social.qq.config.QQConnectionSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -32,11 +33,15 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired
+    QQConnectionSignUp qqConnectionSignUp;
+
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         JdbcUsersConnectionRepository jdbcUsersConnectionRepository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
         //设置对应表明前缀
         jdbcUsersConnectionRepository.setTablePrefix("");
+        jdbcUsersConnectionRepository.setConnectionSignUp(qqConnectionSignUp);
         return jdbcUsersConnectionRepository;
     }
 
@@ -56,7 +61,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
 
     @Bean
-    public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator){
-            return new ProviderSignInUtils(connectionFactoryLocator, getUsersConnectionRepository(connectionFactoryLocator));
+    public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator) {
+        return new ProviderSignInUtils(connectionFactoryLocator, getUsersConnectionRepository(connectionFactoryLocator));
     }
 }
