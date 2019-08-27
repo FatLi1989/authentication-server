@@ -2,6 +2,7 @@ package novli.auth.authentication.browser.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import novli.auth.authentication.browser.support.SimpleResponse;
+import novli.auth.authentication.browser.support.SocialUserInfo;
 import novli.auth.authentication.core.SecurityProperties;
 import novli.auth.authentication.core.validate.ValidateCodeProcessor;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,9 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.web.ProviderSignInUtils;
+import org.springframework.social.security.SocialUser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -33,6 +37,9 @@ public class LoginController {
 
     @Autowired
     private SecurityProperties securityProperties;
+
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
@@ -64,4 +71,15 @@ public class LoginController {
         return new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页");
     }
 
+
+    @GetMapping("/social/user")
+    public SocialUserInfo getSocialUserInfo(HttpServletRequest request) {
+        SocialUserInfo socialUserInfo = new SocialUserInfo();
+        Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
+        socialUserInfo.setProviderId(connection.getKey().getProviderId());
+        socialUserInfo.setProviderUserId(connection.getKey().getProviderUserId());
+        socialUserInfo.setHeadImg(connection.getImageUrl());
+        socialUserInfo.setNickName(connection.getDisplayName());
+        return socialUserInfo;
+    }
 }

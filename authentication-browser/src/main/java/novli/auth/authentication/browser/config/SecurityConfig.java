@@ -90,7 +90,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require", "/authentication/mobile", securityProperties.getBrowser().getLoginPage(), securityProperties.getBrowser().getSignUpUrl(),"/code/*", "/assets/**")
+                .antMatchers("/authentication/require",
+                        "/authentication/mobile",
+                        securityProperties.getBrowser().getLoginPage(),
+                        securityProperties.getBrowser().getSignUpUrl(),
+                        "/code/*",
+                        "/assets/**",
+                        "/user/regist")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
