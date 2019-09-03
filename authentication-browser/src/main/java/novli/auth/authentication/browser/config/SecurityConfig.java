@@ -51,7 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SpringSocialConfigurer novLiSpringSocialConfig;
 
-
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
@@ -98,10 +97,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 //session管理
                 .sessionManagement()
-                //每个用户最多只能存在一个session
+                //session无效处理策略
+/*
+                .invalidSessionStrategy("")
+*/
+                //同一用户最大session数
                 .maximumSessions(1)
-                //用户存在一个session 是否还可以继续登录
+                //达到最大数禁止登录（预防并发登录）
                 .maxSessionsPreventsLogin(true)
+                //session过期处理策略
+/*
+                .expiredSessionStrategy()
+*/
                     .and()
                     .and()
                 .authorizeRequests()
