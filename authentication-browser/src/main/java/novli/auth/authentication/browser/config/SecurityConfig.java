@@ -71,25 +71,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
+        http    //短信登录config
                 .apply(smsCodeAuthenticationSecurityConfig)
-                .and()
-                .apply(novLiSpringSocialConfig)//进入SocialConfig配置项
-                .and()
+                  .and()
+                //三方登录config
+                .apply(novLiSpringSocialConfig)
+                   .and()
+                //短信验证拦截器
                 .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                //图片验证码拦截器
                 .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
+                //需要账户密码登录的请求全部转到这个请求处理
                 .loginPage("/authentication/require")
+                //走UserNamePassword
                 .loginProcessingUrl("/authentication/form")
+                //登录成功处理方式
                 .successHandler(securitySuccessHandler)
+                //登录失败处理方式
                 .failureHandler(securityFailureHandler)
-                .and()
+                  .and()
                 .rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                 .userDetailsService(userDetailsService)
-                .and()
+                    .and()
+                //session管理
+                .sessionManagement()
+                //每个用户最多只能存在一个session
+                .maximumSessions(1)
+                //用户存在一个session 是否还可以继续登录
+                .maxSessionsPreventsLogin(true)
+                    .and()
+                    .and()
                 .authorizeRequests()
+                //这些请求路径不需要认证
                 .antMatchers("/authentication/require",
                         "/authentication/mobile",
                         securityProperties.getBrowser().getLoginPage(),
@@ -97,10 +113,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/code/*",
                         "/assets/**",
                         "/user/regist")
+                //拥有所有权限
                 .permitAll()
+                //任何请求
                 .anyRequest()
+                //需要认证
                 .authenticated()
-                .and()
+                   .and()
                 .csrf().disable();
 
     }
