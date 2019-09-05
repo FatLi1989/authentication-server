@@ -1,4 +1,4 @@
-package novli.auth.authentication.browser.security;
+package novli.auth.authentication.app.support;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component(value = "myUserDetail")
+@Component(value = "appUserDetail")
 public class UserDetail implements UserDetailsService, SocialUserDetailsService {
 
     @Autowired

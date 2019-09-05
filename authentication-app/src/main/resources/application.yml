@@ -9,3 +9,8 @@ spring:
     username: root
     password: lyp19891117
     url: jdbc:mysql://106.12.137.47:3306/security?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+security:
+  oauth2:
+    client:
+      client-id: novli
+      client-secret: novli
