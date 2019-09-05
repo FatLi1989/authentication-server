@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class UserDetail implements UserDetailsService, SocialUserDetailsService {
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 表单登录使用
